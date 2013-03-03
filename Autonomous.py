@@ -1,5 +1,6 @@
 import wpilib
 from Config import *
+from Globals import *
 
 __all__ = ["Autonomous"]
 
@@ -63,12 +64,12 @@ class Autonomous:
         prevState = -1
         state = 0
         i = 0
-        kickPower = 188
-        kickPowerFar = [188 + 66, 188 + 66, 152 + 66, 152 + 33, 152 + 33]
-        #kickPowerFar = [50, 50, 50, 50, 50]
-        kickPowerFarBounce = [188 - 66, 188 - 99, 152 - 66, 152 - 66, 152 - 66]
-        kickPowerMid = [50 + 33, 50 + 33, 50 + 33, 50 + 33, 50 + 33]
-        kickPowerNear = [0]*5
+        kickPower = 4
+        kickPowerFar = [2, 2, 3, 4, 4]
+        #kickPowerFar = [8, 8, 8, 8, 8]
+        kickPowerFarBounce = [6, 5, 5, 5, 5]
+        kickPowerMid = [7, 7, 7, 7, 7]
+        kickPowerNear = [10, 10, 10, 10, 10]
         ballsKicked = 0
         intakeSpeed = -1.0
 

@@ -1,14 +1,15 @@
 from wpilib import PIDOutput
+from Globals import *
 
 class WinchOutput(PIDOutput):
-    def __init__(self, winchMotor, enc, backLimitSwitch):
+    def __init__(self, winchMotor, pot):
         PIDOutput.__init__(self)
         self.winchMotor = winchMotor
-        self.enc = enc
-        self.backLimit = backLimitSwitch
+        self.pot = pot
 
     def Set(self, speed):
-        if speed < 0 and self.backLimit.Get() == 0:
+        potval = self.pot.Get()
+        if (speed < 0 and potval < gWinchFull) or (speed > 0 and potval > gWinchOut):
             self.winchMotor.Set(0.0)
         else:
             self.winchMotor.Set(speed)

@@ -1,6 +1,6 @@
 import wpilib
 from DualSpeedController import DualSpeedController
-from EncoderSource import EncoderSource
+from PotSource import PotSource
 from WinchOutput import WinchOutput
 
 # Joysticks
@@ -30,30 +30,14 @@ ratchet2 = wpilib.Solenoid(7, 4)
 compressor = wpilib.Compressor(8, 1)
 
 # Sensors
-frontLimitSwitch = wpilib.DigitalInput(6)
-backLimitSwitch = wpilib.DigitalInput(5)
-kickerEncoder = wpilib.Encoder(9, 10, True)
+kickerPot = wpilib.AnalogChannel(7)
 leftDriveEncoder = wpilib.Encoder(13, 14, True)
 rightDriveEncoder = wpilib.Encoder(11, 12)
 
-# Global settings
-gDriveTicksPerInch = 11
-gWinchOut = 570             # fully winched out and ready to kick
-gWinchFull = 290            # fully winched back (full power kick)
-gWinchDeadband = 8          # deadband on encoder controller
-
-# how long to wait after kick pneumatic release to start winching back
-gWinchWaitTime = 0.25
-
-# how long to wait after kick pneumatic release until we can kick again
-# (rule: 2 seconds between kicks)
-gBetweenKickTime = 2.375
-
 # PID controllers
-winchEnc = EncoderSource(kickerEncoder)
-winchOutput = WinchOutput(kickerMotor, kickerEncoder, backLimitSwitch)
-winchControl = wpilib.PIDController(-1.0/25.0, 0.0, -1.0/25.0, winchEnc,
-                                    winchOutput)
+winchPot = PotSource(kickerPot)
+winchOutput = WinchOutput(kickerMotor, winchPot)
+winchControl = wpilib.PIDController(0.0, 0.0, 0.0, winchPot, winchOutput)
 
 # Core utility functions
 def HaveBall():

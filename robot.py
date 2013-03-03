@@ -1,5 +1,6 @@
 import wpilib
 from Config import *
+from Globals import *
 from Kicker import *
 from Autonomous import *
 
@@ -12,7 +13,6 @@ class MyRobot(wpilib.SimpleRobot):
     def RobotInit(self):
         wpilib.Wait(0.25)
         winchControl.SetOutputRange(-1.0, 1.0)
-        kickerEncoder.Start()
         leftDriveEncoder.Start()
         rightDriveEncoder.Start()
         compressor.Start()
@@ -41,6 +41,7 @@ class MyRobot(wpilib.SimpleRobot):
         dog.SetExpiration(0.25)
         shiftTime = wpilib.Timer()
         haveTime = wpilib.Timer()
+        i = 0
 
         shiftTime.Start()
         haveTime.Start()
@@ -50,6 +51,9 @@ class MyRobot(wpilib.SimpleRobot):
         while self.IsOperatorControl() and self.IsEnabled():
             dog.Feed()
             CheckRestart()
+            i = i + 1
+            if i % 20 == 0:
+                print("K: %d" % kickerPot.GetAverageValue())
 
             if not HaveBall():
                 haveTime.Reset()
